@@ -7,6 +7,8 @@ import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.points.PointCalculator;
+import nl.tudelft.jpacman.Launcher;
+
 
 import javax.swing.*;
 
@@ -117,11 +119,20 @@ public abstract class Game implements LevelObserver {
     @Override
     public void levelWon() {
         stop();
+        // Close UI
+        Launcher.pacManUI.start(false);
+        // Start UI
+        Launcher.launchers.launch();
     }
 
     @Override
     public void levelLost() {
         System.out.print("");
         stop();
+        // Close UI
+        Launcher.pacManUI.start(false);
+
+        // Start UI
+        Launcher.launchers.launch();
     }
 }
