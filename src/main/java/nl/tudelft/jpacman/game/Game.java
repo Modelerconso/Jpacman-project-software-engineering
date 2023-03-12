@@ -10,6 +10,8 @@ import nl.tudelft.jpacman.points.PointCalculator;
 import nl.tudelft.jpacman.Launcher;
 
 
+import javax.swing.*;
+
 /**
  * A basic implementation of a Pac-Man game.
  *
@@ -21,6 +23,7 @@ public abstract class Game implements LevelObserver {
      * <code>true</code> if the game is in progress.
      */
     private boolean inProgress;
+    private boolean isPaused;
 
     /**
      * Object that locks the start and stop methods.
@@ -42,6 +45,7 @@ public abstract class Game implements LevelObserver {
     protected Game(PointCalculator pointCalculator) {
         this.pointCalculator = pointCalculator;
         inProgress = false;
+        isPaused = false;
     }
 
     /**
@@ -50,12 +54,17 @@ public abstract class Game implements LevelObserver {
     public void start() {
         synchronized (progressLock) {
             if (isInProgress()) {
+                System.out.print("Game is already started.");
                 return;
+
             }
             if (getLevel().isAnyPlayerAlive() && getLevel().remainingPellets() > 0) {
                 inProgress = true;
                 getLevel().addObserver(this);
                 getLevel().start();
+            }
+            else{
+
             }
         }
     }
@@ -69,6 +78,7 @@ public abstract class Game implements LevelObserver {
                 return;
             }
             inProgress = false;
+            isPaused = true;
             getLevel().stop();
         }
     }
@@ -117,6 +127,7 @@ public abstract class Game implements LevelObserver {
 
     @Override
     public void levelLost() {
+        System.out.print("");
         stop();
         // Close UI
         Launcher.pacManUI.start(false);
