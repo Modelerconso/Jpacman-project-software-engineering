@@ -1,35 +1,38 @@
 package nl.tudelft.jpacman.game;
 
-import java.util.List;
-
+import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.points.PointCalculator;
-import nl.tudelft.jpacman.Launcher;
 
-
-import javax.swing.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A basic implementation of a Pac-Man game.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 public abstract class Game implements LevelObserver {
 
+    private Date timestampStart;
+    private long time = 0;
+    /**
+     * Object that locks the start and stop methods.
+     */
+    private final Object progressLock = new Object();
     /**
      * <code>true</code> if the game is in progress.
      */
     private boolean inProgress;
     private boolean isPaused;
-
-    /**
-     * Object that locks the start and stop methods.
-     */
-    private final Object progressLock = new Object();
-
     /**
      * The algorithm used to calculate the points that
      * they player gets whenever some action happens.
@@ -39,8 +42,7 @@ public abstract class Game implements LevelObserver {
     /**
      * Creates a new game.
      *
-     * @param pointCalculator
-     *             The way to calculate points upon collisions.
+     * @param pointCalculator The way to calculate points upon collisions.
      */
     protected Game(PointCalculator pointCalculator) {
         this.pointCalculator = pointCalculator;
@@ -56,15 +58,15 @@ public abstract class Game implements LevelObserver {
             if (isInProgress()) {
                 System.out.print("Game is already started.");
                 return;
-
             }
+            timestampStart = new Date();
+            time = 0;
+            System.out.println(getTime());
             if (getLevel().isAnyPlayerAlive() && getLevel().remainingPellets() > 0) {
+                timestampStart = new Date();
                 inProgress = true;
                 getLevel().addObserver(this);
                 getLevel().start();
-            }
-            else{
-
             }
         }
     }
@@ -77,6 +79,7 @@ public abstract class Game implements LevelObserver {
             if (!isInProgress()) {
                 return;
             }
+            getTime();
             inProgress = false;
             isPaused = true;
             getLevel().stop();
@@ -103,10 +106,8 @@ public abstract class Game implements LevelObserver {
     /**
      * Moves the specified player one square in the given direction.
      *
-     * @param player
-     *            The player to move.
-     * @param direction
-     *            The direction to move in.
+     * @param player    The player to move.
+     * @param direction The direction to move in.
      */
     public void move(Player player, Direction direction) {
         if (isInProgress()) {
@@ -116,8 +117,43 @@ public abstract class Game implements LevelObserver {
         }
     }
 
+    public long getTime() {
+        Date timestampPause = new Date();
+        time += timestampPause.getSeconds()-timestampStart.getSeconds();
+        return time;
+    }
+
+    public boolean saveScore(Player player, long playingTime) {
+        File fileScore = new File("./data/score.txt");
+        System.out.println(fileScore.getPath());
+        if (!(fileScore.isFile() && fileScore.exists())) {
+            try {
+                fileScore.createNewFile();
+            } catch (IOException error){
+                System.out.println("File can't create: " + error);
+                return false;
+            }
+        }
+        if(!fileScore.canWrite()){
+            System.out.println("File can't write.");
+            return false;
+        }
+        try {
+            FileWriter fw = new FileWriter(fileScore, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter writer = new PrintWriter(bw);
+            writer.println(player.getName() + " " + player.getScore() + " " + playingTime);
+            writer.close();
+        } catch (IOException error){
+            System.out.println("File can't write: " + error);
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void levelWon() {
+        saveScore(getPlayers().get(0), getTime());
         stop();
         // Close UI
         Launcher.pacManUI.start(false);
@@ -127,7 +163,7 @@ public abstract class Game implements LevelObserver {
 
     @Override
     public void levelLost() {
-        System.out.print("");
+        saveScore(getPlayers().get(0), getTime());
         stop();
         // Close UI
         Launcher.pacManUI.start(false);
