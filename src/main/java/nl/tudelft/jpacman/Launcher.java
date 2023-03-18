@@ -186,6 +186,15 @@ public class Launcher {
         pacManUI.start();
     }
 
+    public void launch(String username) {
+        makeGame();
+        PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
+        addSinglePlayerKeys(builder);
+        pacManUI = builder.build(getGame());
+        game.getPlayers().get(0).setName(username);
+        pacManUI.start();
+    }
+
     /**
      * Disposes of the UI. For more information see
      * {@link javax.swing.JFrame#dispose()}.
@@ -208,6 +217,7 @@ public class Launcher {
      */
 
     public static void main(String[] args) throws IOException {
+        launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();
     }

@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class UsernameUI extends JFrame{
     private JPanel usernameUI;
+    private String username ;
     public UsernameUI() {
 
         usernameUI = new JPanel();
@@ -27,15 +28,15 @@ public class UsernameUI extends JFrame{
         enterButton.addActionListener(e -> {
 
             // String Text "Username"
-            String username = textLabel.getText();
+            username = textLabel.getText();
 
             // Check Text "empty"
             if (!username.isEmpty()){
-                Launcher launchers = new Launcher();
-                launchers.launch();
+                Launcher.launchers.launch(username);
                 dispose();
             }
         });
+
         usernameUI.setLayout(new GridLayout(4,1));
         usernameUI.add(usernameLabel);
         usernameUI.add(textLabel);
@@ -43,6 +44,15 @@ public class UsernameUI extends JFrame{
         setSize(400,400);
         add(usernameUI);
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void start() {
         setVisible(true);
     }
