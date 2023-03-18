@@ -19,17 +19,18 @@ public class UsernameUI extends JFrame{
         JTextField textLabel = new JTextField();
         textLabel.setBounds(100,125, 200,50);
 
-        // String Text "Username"
-        String username = textLabel.getText();
-
         // Button Label
         JButton enterButton = new JButton("Enter");
         enterButton.setBounds(150,200, 100,50);
 
         // Action after click "Enter"
         enterButton.addActionListener(e -> {
+
+            // String Text "Username"
+            String username = textLabel.getText();
+
             // Check Text "empty"
-            if (!username.equals("")){
+            if (!username.isEmpty()){
                 Launcher launchers = new Launcher();
                 launchers.launch();
                 dispose();
