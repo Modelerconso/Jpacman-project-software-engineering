@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +31,6 @@ public abstract class Game implements LevelObserver {
      * <code>true</code> if the game is in progress.
      */
     private boolean inProgress;
-    private boolean isPaused;
     /**
      * The algorithm used to calculate the points that
      * they player gets whenever some action happens.
@@ -47,7 +45,6 @@ public abstract class Game implements LevelObserver {
     protected Game(PointCalculator pointCalculator) {
         this.pointCalculator = pointCalculator;
         inProgress = false;
-        isPaused = false;
         timestampStart = System.currentTimeMillis();
         time = 0;
     }
