@@ -9,10 +9,7 @@ import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.points.PointCalculator;
 import nl.tudelft.jpacman.points.PointCalculatorLoader;
 import nl.tudelft.jpacman.sprite.PacManSprites;
-import nl.tudelft.jpacman.ui.Action;
-import nl.tudelft.jpacman.ui.MenuUI;
-import nl.tudelft.jpacman.ui.PacManUI;
-import nl.tudelft.jpacman.ui.PacManUiBuilder;
+import nl.tudelft.jpacman.ui.*;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -189,6 +186,15 @@ public class Launcher {
         pacManUI.start();
     }
 
+    public void launch(String username) {
+        makeGame();
+        PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
+        addSinglePlayerKeys(builder);
+        pacManUI = builder.build(getGame());
+        game.getPlayers().get(0).setName(username);
+        pacManUI.start();
+    }
+
     /**
      * Disposes of the UI. For more information see
      * {@link javax.swing.JFrame#dispose()}.
@@ -211,8 +217,7 @@ public class Launcher {
      */
 
     public static void main(String[] args) throws IOException {
-//        launchers = new Launcher();
-//        launchers.launch();
+        launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();
     }

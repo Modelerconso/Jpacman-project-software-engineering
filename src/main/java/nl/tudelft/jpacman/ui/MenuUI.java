@@ -14,8 +14,8 @@ public class MenuUI extends JFrame {
         JButton onlineButton = new JButton("Online");
         JButton offlineButton = new JButton("Offline");
         offlineButton.addActionListener(e -> {
-            Launcher launchers = new Launcher();
-            launchers.launch();
+            UsernameUI usernameUI = new UsernameUI();
+            usernameUI.start();
             dispose();
         });
         JButton exitButton = new JButton("exit");
@@ -24,11 +24,11 @@ public class MenuUI extends JFrame {
         menuUI.add(onlineButton);
         menuUI.add(offlineButton);
         menuUI.add(exitButton);
-        setSize(200,500);
+        setSize(400,400);
         add(menuUI);
     }
 
     public void start() {
-       setVisible(true);
+        setVisible(true);
     }
 }

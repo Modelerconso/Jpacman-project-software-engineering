@@ -152,20 +152,11 @@ public abstract class Game implements LevelObserver {
     public void levelWon() {
         saveScore(getPlayers().get(0), getTime());
         stop();
-        // Close UI
-        Launcher.pacManUI.start(false);
-        // Start UI
-        Launcher.launchers.launch();
     }
 
     @Override
     public void levelLost() {
         saveScore(getPlayers().get(0), getTime());
         stop();
-        // Close UI
-        Launcher.pacManUI.start(false);
-
-        // Start UI
-        Launcher.launchers.launch();
     }
 }
