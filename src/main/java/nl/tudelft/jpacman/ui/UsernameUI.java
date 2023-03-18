@@ -32,6 +32,7 @@ public class UsernameUI extends JFrame{
 
             // Check Text "empty"
             if (!username.isEmpty()){
+                //
                 Launcher.launchers.launch(username);
                 dispose();
             }

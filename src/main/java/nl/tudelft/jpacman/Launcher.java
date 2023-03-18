@@ -191,11 +191,12 @@ public class Launcher {
     }
 
     public void launch(String username) {
+        System.out.println(username);
         makeGame();
         PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
         addSinglePlayerKeys(builder);
-        pacManUI = builder.build(getGame());
         game.getPlayers().get(0).setName(username);
+        pacManUI = builder.build(getGame());
         pacManUI.start();
     }
 
@@ -221,7 +222,7 @@ public class Launcher {
      */
 
     public static void main(String[] args) throws IOException {
-
+        launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();
     }

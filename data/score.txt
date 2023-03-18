@@ -1,0 +1,11 @@
+sdf 60 2015
+sdfsdf 50 2659
+sdfsdf 60 2413
+ABC 50 2466
+ABC 60 2372
+ABC 60 2372
+s 70 2822
+sdf 80 3405
+sfsdf 50 1912
+sfsdf 70 3205
+XXX 60 1892
