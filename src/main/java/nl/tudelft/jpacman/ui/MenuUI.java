@@ -19,6 +19,9 @@ public class MenuUI extends JFrame {
             dispose();
         });
         JButton exitButton = new JButton("exit");
+        exitButton.addActionListener(e -> {
+            System.exit(0);
+        });
         menuUI.setLayout(new GridLayout(4,1));
         menuUI.add(menuLabel);
         menuUI.add(onlineButton);

@@ -36,6 +36,7 @@ public class ScoreBoardUI extends JFrame{
         });
 
         ScoreBoardButton.addActionListener(e -> {
+            ShowScoreBoard showScoreBoard = new ShowScoreBoard(game);
             dispose();
         });
 

@@ -1,10 +1,10 @@
 package nl.tudelft.jpacman.ui;
-import nl.tudelft.jpacman.Launcher;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
+
+import nl.tudelft.jpacman.Launcher;
+import nl.tudelft.jpacman.game.Game;
 
 
 public class ShowScoreBoard extends JFrame {
@@ -17,7 +17,7 @@ public class ShowScoreBoard extends JFrame {
     private JButton menuButton;
     private JButton restartButton;
 
-    public ShowScoreBoard() {
+    public ShowScoreBoard(Game game) {
 
         // Create the label with the text "Score Board"
         JLabel scoreBoardLabel = new JLabel("Score Board", SwingConstants.CENTER);
@@ -47,10 +47,14 @@ public class ShowScoreBoard extends JFrame {
             }
         });
         menuButton.addActionListener(e -> {
+            MenuUI menuUI = new MenuUI();
+            menuUI.start();
             dispose();
 
         });
         restartButton.addActionListener(e -> {
+            String PlayerUsername = game.getPlayers().get(0).getName();
+            Launcher.launchers.launch(PlayerUsername);
             dispose();
 
         });
@@ -74,11 +78,11 @@ public class ShowScoreBoard extends JFrame {
         // set up frame
         add(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 600);
+        setSize(400, 400);
         setVisible(true);
 
         // Center the frame on the screen
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
 
         // update table with initial data
         updateTable();
