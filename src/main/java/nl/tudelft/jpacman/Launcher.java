@@ -181,10 +181,11 @@ public class Launcher {
      * Creates and starts a JPac-Man game.
      */
 
-    public void launch() {
+    public void launch(String playerName) {
         makeGame();
         PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
         addSinglePlayerKeys(builder);
+        game.getPlayers().get(0).setName(playerName);
         pacManUI = builder.build(getGame());
         pacManUI.start();
     }
