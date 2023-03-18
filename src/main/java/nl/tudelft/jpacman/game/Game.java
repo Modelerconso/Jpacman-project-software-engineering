@@ -22,7 +22,7 @@ import java.util.List;
  */
 public abstract class Game implements LevelObserver {
 
-    private Date timestampStart;
+    private long timestampStart;
     private long time = 0;
     /**
      * Object that locks the start and stop methods.
@@ -48,6 +48,8 @@ public abstract class Game implements LevelObserver {
         this.pointCalculator = pointCalculator;
         inProgress = false;
         isPaused = false;
+        timestampStart = System.currentTimeMillis();
+        time = 0;
     }
 
     /**
@@ -56,14 +58,11 @@ public abstract class Game implements LevelObserver {
     public void start() {
         synchronized (progressLock) {
             if (isInProgress()) {
-                System.out.print("Game is already started.");
+                System.out.println("Game is already started.");
                 return;
             }
-            timestampStart = new Date();
-            time = 0;
-            System.out.println(getTime());
             if (getLevel().isAnyPlayerAlive() && getLevel().remainingPellets() > 0) {
-                timestampStart = new Date();
+                timestampStart = System.currentTimeMillis()-time;
                 inProgress = true;
                 getLevel().addObserver(this);
                 getLevel().start();
@@ -79,9 +78,7 @@ public abstract class Game implements LevelObserver {
             if (!isInProgress()) {
                 return;
             }
-            getTime();
             inProgress = false;
-            isPaused = true;
             getLevel().stop();
         }
     }
@@ -117,9 +114,12 @@ public abstract class Game implements LevelObserver {
         }
     }
 
+    public void updateTime() {
+        long timestampCurrent = System.currentTimeMillis();
+        time = timestampCurrent - timestampStart;
+    }
+
     public long getTime() {
-        Date timestampPause = new Date();
-        time += timestampPause.getSeconds()-timestampStart.getSeconds();
         return time;
     }
 
