@@ -14,6 +14,7 @@ import nl.tudelft.jpacman.ui.MenuUI;
 import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
+
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
@@ -189,6 +190,15 @@ public class Launcher {
         pacManUI.start();
     }
 
+    public void launch(String username) {
+        makeGame();
+        PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
+        addSinglePlayerKeys(builder);
+        pacManUI = builder.build(getGame());
+        game.getPlayers().get(0).setName(username);
+        pacManUI.start();
+    }
+
     /**
      * Disposes of the UI. For more information see
      * {@link javax.swing.JFrame#dispose()}.
@@ -211,8 +221,7 @@ public class Launcher {
      */
 
     public static void main(String[] args) throws IOException {
-//        launchers = new Launcher();
-//        launchers.launch();
+
         MenuUI menuUI = new MenuUI();
         menuUI.start();
     }
