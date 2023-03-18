@@ -6,6 +6,8 @@ import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.points.PointCalculator;
+import nl.tudelft.jpacman.ui.ScoreBoardUI;
+
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -152,11 +154,22 @@ public abstract class Game implements LevelObserver {
     public void levelWon() {
         saveScore(getPlayers().get(0), getTime());
         stop();
+
+        // Close UI
+        Launcher.pacManUI.start(false);
+
+        ScoreBoardUI scoreBoardUI = new ScoreBoardUI(this);
+
     }
 
     @Override
     public void levelLost() {
         saveScore(getPlayers().get(0), getTime());
         stop();
+        // Close UI
+        Launcher.pacManUI.start(false);
+
+        ScoreBoardUI scoreBoardUI = new ScoreBoardUI(this);
+
     }
 }

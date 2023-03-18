@@ -9,7 +9,11 @@ import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.points.PointCalculator;
 import nl.tudelft.jpacman.points.PointCalculatorLoader;
 import nl.tudelft.jpacman.sprite.PacManSprites;
-import nl.tudelft.jpacman.ui.*;
+import nl.tudelft.jpacman.ui.Action;
+import nl.tudelft.jpacman.ui.MenuUI;
+import nl.tudelft.jpacman.ui.PacManUI;
+import nl.tudelft.jpacman.ui.PacManUiBuilder;
+
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -217,7 +221,7 @@ public class Launcher {
      */
 
     public static void main(String[] args) throws IOException {
-        launchers = new Launcher();
+
         MenuUI menuUI = new MenuUI();
         menuUI.start();
     }
