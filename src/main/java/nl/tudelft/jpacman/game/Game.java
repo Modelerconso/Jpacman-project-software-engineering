@@ -2,6 +2,8 @@ package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.data.ScoreData;
+import nl.tudelft.jpacman.data.ScoreSorter;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
@@ -122,37 +124,10 @@ public abstract class Game implements LevelObserver {
         return time;
     }
 
-    public boolean saveScore(Player player, long playingTime) {
-        File fileScore = new File("./data/score.txt");
-        System.out.println(fileScore.getPath());
-        if (!(fileScore.isFile() && fileScore.exists())) {
-            try {
-                fileScore.createNewFile();
-            } catch (IOException error){
-                System.out.println("File can't create: " + error);
-                return false;
-            }
-        }
-        if(!fileScore.canWrite()){
-            System.out.println("File can't write.");
-            return false;
-        }
-        try {
-            FileWriter fw = new FileWriter(fileScore, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter writer = new PrintWriter(bw);
-            writer.println(player.getName() + " " + player.getScore() + " " + playingTime);
-            writer.close();
-        } catch (IOException error){
-            System.out.println("File can't write: " + error);
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public void levelWon() {
-        saveScore(getPlayers().get(0), getTime());
+        ScoreData.saveScore(getPlayers().get(0), getTime());
         stop();
 
         // Close UI
@@ -164,7 +139,7 @@ public abstract class Game implements LevelObserver {
 
     @Override
     public void levelLost() {
-        saveScore(getPlayers().get(0), getTime());
+        ScoreData.saveScore(getPlayers().get(0), getTime());
         stop();
         // Close UI
         Launcher.pacManUI.start(false);

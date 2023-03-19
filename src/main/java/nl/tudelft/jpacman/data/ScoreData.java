@@ -1,12 +1,14 @@
 package nl.tudelft.jpacman.data;
 
-import java.io.File;
+import nl.tudelft.jpacman.level.Player;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ScoreData {
-    private String SCORE_FILE_PATH = "./data/score.txt";
+    private static String SCORE_FILE_PATH = "./data/score.txt";
 
     public List<Score> getListScore() {
         List<Score> scoreList = new ArrayList<Score>();
@@ -31,6 +33,34 @@ public class ScoreData {
         for (int i = 0; i < newList.size(); i++) {
             System.out.println(newList.get(i).getScore()+" "+newList.get(i).getTime());
         }
+    }
+
+    public static boolean saveScore(Player player, long playingTime) {
+        File fileScore = new File(SCORE_FILE_PATH);
+        System.out.println(fileScore.getPath());
+        if (!(fileScore.isFile() && fileScore.exists())) {
+            try {
+                fileScore.createNewFile();
+            } catch (IOException error){
+                System.out.println("File can't create: " + error);
+                return false;
+            }
+        }
+        if(!fileScore.canWrite()){
+            System.out.println("File can't write.");
+            return false;
+        }
+        try {
+            FileWriter fw = new FileWriter(fileScore, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter writer = new PrintWriter(bw);
+            writer.println(player.getName() + " " + player.getScore() + " " + playingTime);
+            writer.close();
+        } catch (IOException error){
+            System.out.println("File can't write: " + error);
+            return false;
+        }
+        return true;
     }
 
 }
