@@ -21,10 +21,16 @@ public class ScoreData {
         } catch (Exception e){
             System.out.println(e);
         }
-        for(int i=0;i<scoreList.size();i++) {
-            System.out.println(scoreList.get(i).getScore());
-        }
         return scoreList;
+    }
+
+    public void getScoreListSorted() {
+        ScoreSorter sorter = new ScoreSorter();
+        List<Score> scoreListSorted = getListScore();
+        List<Score> newList = sorter.sortScoresByScore(scoreListSorted);
+        for (int i = 0; i < newList.size(); i++) {
+            System.out.println(newList.get(i).getScore()+" "+newList.get(i).getTime());
+        }
     }
 
 }

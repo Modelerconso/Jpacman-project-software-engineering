@@ -155,7 +155,7 @@ public abstract class Game implements LevelObserver {
         // Close UI
         Launcher.pacManUI.start(false);
         // Start UI
-        Launcher.launchers.launch();
+//        Launcher.launchers.launch();
     }
 
     @Override
@@ -166,6 +166,6 @@ public abstract class Game implements LevelObserver {
         Launcher.pacManUI.start(false);
 
         // Start UI
-        Launcher.launchers.launch();
+//        Launcher.launchers.launch();
     }
 }
