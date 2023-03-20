@@ -68,7 +68,7 @@ public class ScorePanel extends JPanel {
             add(scoreLabel);
         }
 
-        timeLabel = new JLabel("time: 0", JLabel.CENTER);
+        timeLabel = new JLabel("Time(s): 0.00", JLabel.CENTER);
         add(timeLabel);
     }
 
@@ -88,7 +88,7 @@ public class ScorePanel extends JPanel {
         if(game.isInProgress()) {
             game.updateTime();
         }
-        timeLabel.setText("time:" + game.getTime());
+        timeLabel.setText("Time(s) :" + (game.getTime()/1000.0));
 
     }
 

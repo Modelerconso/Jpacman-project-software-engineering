@@ -1,5 +1,7 @@
 package nl.tudelft.jpacman.data;
 
+import nl.tudelft.jpacman.level.Player;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,16 @@ public class Score {
     private String playerName;
     private int score;
     private long time;
+
+    public Score() {
+
+    }
+
+    public Score(Player player, long time) {
+        this.playerName = player.getName();
+        this.score = player.getScore();
+        this.time = time;
+    }
 
     public Score(String playerName, int score, long time) {
         this.playerName = playerName;
@@ -47,5 +59,3 @@ public class Score {
         return map;
     }
 }
-
-

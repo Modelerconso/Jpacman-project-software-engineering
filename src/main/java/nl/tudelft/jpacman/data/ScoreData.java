@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ScoreData {
-    private static String SCORE_FILE_PATH = "./data/score.txt";
+    private static String SCORE_FILE_PATH = "./data/offline-score.txt";
 
-    public List<Score> getListScore() {
+    public static List<Score> getListScore() {
         List<Score> scoreList = new ArrayList<Score>();
         try {
             File scoreFile = new File(SCORE_FILE_PATH);
@@ -26,27 +26,24 @@ public class ScoreData {
         return scoreList;
     }
 
-    public void getScoreListSorted() {
+    public static List<Score> getScoreListSorted(List<Score> scores) {
         ScoreSorter sorter = new ScoreSorter();
-        List<Score> scoreListSorted = getListScore();
-        List<Score> newList = sorter.sortScoresByScore(scoreListSorted);
-        for (int i = 0; i < newList.size(); i++) {
-            System.out.println(newList.get(i).getScore()+" "+newList.get(i).getTime());
-        }
+        List<Score> newList = sorter.sortScoresByScore(scores);
+        return newList;
     }
 
-    public static boolean saveScore(Player player, long playingTime) {
+    public static boolean saveScore(Score score) {
         File fileScore = new File(SCORE_FILE_PATH);
         System.out.println(fileScore.getPath());
         if (!(fileScore.isFile() && fileScore.exists())) {
             try {
                 fileScore.createNewFile();
-            } catch (IOException error){
+            } catch (IOException error) {
                 System.out.println("File can't create: " + error);
                 return false;
             }
         }
-        if(!fileScore.canWrite()){
+        if(!fileScore.canWrite()) {
             System.out.println("File can't write.");
             return false;
         }
@@ -54,9 +51,9 @@ public class ScoreData {
             FileWriter fw = new FileWriter(fileScore, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter writer = new PrintWriter(bw);
-            writer.println(player.getName() + " " + player.getScore() + " " + playingTime);
+            writer.println(score.getPlayerName() + " " + score.getScore() + " " + score.getTime());
             writer.close();
-        } catch (IOException error){
+        } catch (IOException error) {
             System.out.println("File can't write: " + error);
             return false;
         }
