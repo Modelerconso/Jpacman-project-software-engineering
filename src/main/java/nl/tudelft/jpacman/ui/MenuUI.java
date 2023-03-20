@@ -1,6 +1,7 @@
 package nl.tudelft.jpacman.ui;
 
 import nl.tudelft.jpacman.Launcher;
+import nl.tudelft.jpacman.data.FirebaseRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,9 @@ public class MenuUI extends JFrame {
         menuUI = new JPanel();
         JLabel menuLabel = new JLabel("Menu", JLabel.CENTER);
         JButton onlineButton = new JButton("Online");
+        if(!FirebaseRepository.canConnect()){
+            onlineButton.setEnabled(false);
+        }
         JButton offlineButton = new JButton("Offline");
         offlineButton.addActionListener(e -> {
             UsernameUI usernameUI = new UsernameUI();

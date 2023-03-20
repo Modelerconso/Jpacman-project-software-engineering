@@ -2,6 +2,9 @@ package nl.tudelft.jpacman;
 
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.data.FirebaseConfig;
+import nl.tudelft.jpacman.data.FirebaseRepository;
+import nl.tudelft.jpacman.data.Score;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.*;
@@ -221,7 +224,10 @@ public class Launcher {
      *             When a resource could not be read.
      */
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+        if(FirebaseConfig.isInternetConnected()){
+            FirebaseConfig.init();
+        }
         launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();
