@@ -1,11 +1,11 @@
 package nl.tudelft.jpacman.data;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.net.InetAddress;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.FirebaseDatabase;
+
 
 public class FirebaseConfig {
     public static void init() throws Exception {
@@ -18,8 +18,20 @@ public class FirebaseConfig {
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .build();
         FirebaseApp.initializeApp(options);
+    }
 
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    public static boolean isInternetConnected() {
+        try {
+            InetAddress address = InetAddress.getByName("8.8.8.8"); // Google's DNS server
+            if (address.isReachable(3000)) { // 5000 ms timeout
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

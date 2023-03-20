@@ -7,13 +7,8 @@ import java.util.Map;
 
 public class FirebaseRepository {
     public static boolean canConnect() {
-        try {
-            FirebaseConfig.init();
-            return true;
-        } catch (Exception e) {
-            System.out.println(e);
-            return false;
-        }
+        boolean canConnect = FirebaseConfig.isInternetConnected();
+        return canConnect;
     }
     public static void write(Score score) throws Exception {
         Firestore db = FirestoreClient.getFirestore();

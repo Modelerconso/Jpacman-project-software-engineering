@@ -225,7 +225,9 @@ public class Launcher {
      */
 
     public static void main(String[] args) throws Exception {
-        FirebaseRepository.canConnect();
+        if(FirebaseConfig.isInternetConnected()){
+            FirebaseConfig.init();
+        }
         launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();
