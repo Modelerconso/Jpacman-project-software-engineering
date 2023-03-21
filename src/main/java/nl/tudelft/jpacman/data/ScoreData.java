@@ -1,7 +1,5 @@
 package nl.tudelft.jpacman.data;
 
-import nl.tudelft.jpacman.level.Player;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,31 +9,29 @@ public class ScoreData {
     private static String SCORE_FILE_PATH = "./data/offline-score.txt";
 
     public static List<Score> getListScore() {
-        List<Score> scoreList = new ArrayList<Score>();
-        try {
-            File scoreFile = new File(SCORE_FILE_PATH);
-            Scanner scanner = new Scanner(scoreFile);
-            while(scanner.hasNextLine()) {
+        List<Score> scoreList = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(SCORE_FILE_PATH))) {
+            while (scanner.hasNextLine()) {
                 String[] splitData = scanner.nextLine().split(" ");
-                Score data = new Score(splitData[0], Integer.parseInt(splitData[1]), Long.parseLong(splitData[2]));
-                scoreList.add(data);
+                if (splitData.length != 3) {
+                    continue;
+                }
+                try {
+                    Score data = new Score(splitData[0], Integer.parseInt(splitData[1]), Long.parseLong(splitData[2]));
+                    scoreList.add(data);
+                } catch (NumberFormatException e) {
+                    // Ignore invalid score entries
+                }
             }
-        } catch (Exception e){
-            System.out.println(e);
+        } catch (FileNotFoundException e) {
+            // Ignore if file does not exist
         }
         return scoreList;
     }
 
-    public static List<Score> getScoreListSorted(List<Score> scores) {
-        ScoreSorter sorter = new ScoreSorter();
-        List<Score> newList = sorter.sortScoresByScore(scores);
-        return newList;
-    }
-
     public static boolean saveScore(Score score) {
         File fileScore = new File(SCORE_FILE_PATH);
-        System.out.println(fileScore.getPath());
-        if (!(fileScore.isFile() && fileScore.exists())) {
+        if (!fileScore.exists()) {
             try {
                 fileScore.createNewFile();
             } catch (IOException error) {
@@ -43,16 +39,14 @@ public class ScoreData {
                 return false;
             }
         }
-        if(!fileScore.canWrite()) {
+        if (!fileScore.canWrite()) {
             System.out.println("File can't write.");
             return false;
         }
-        try {
-            FileWriter fw = new FileWriter(fileScore, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter writer = new PrintWriter(bw);
-            writer.println(score.getPlayerName() + " " + score.getScore() + " " + score.getTime());
-            writer.close();
+        try (FileWriter fw = new FileWriter(fileScore, true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter writer = new PrintWriter(bw)) {
+            writer.println(score.getPlayerName() + " " + score.getScore() + " " + score.getPlayingTime());
         } catch (IOException error) {
             System.out.println("File can't write: " + error);
             return false;
@@ -60,4 +54,7 @@ public class ScoreData {
         return true;
     }
 
+    public static void setScoreFilePath(String scoreFilePath) {
+        SCORE_FILE_PATH = scoreFilePath;
+    }
 }

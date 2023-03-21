@@ -1,7 +1,7 @@
 package nl.tudelft.jpacman.ui;
 
 import nl.tudelft.jpacman.Launcher;
-import nl.tudelft.jpacman.data.FirebaseRepository;
+import nl.tudelft.jpacman.data.ScoreRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class MenuUI extends JFrame {
         menuPanel = new JPanel();
         JLabel menuLabel = new JLabel("Menu", JLabel.CENTER);
         JButton onlineButton = new JButton("Online");
-        onlineButton.setEnabled(FirebaseRepository.canConnect());
+        onlineButton.setEnabled(ScoreRepository.canConnect());
         onlineButton.addActionListener(e -> {
             Launcher.isOnline = true;
             UsernameUI usernameUI = new UsernameUI();

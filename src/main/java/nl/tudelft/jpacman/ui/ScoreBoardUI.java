@@ -6,9 +6,10 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import nl.tudelft.jpacman.Launcher;
-import nl.tudelft.jpacman.data.FirebaseRepository;
+import nl.tudelft.jpacman.data.ScoreRepository;
 import nl.tudelft.jpacman.data.Score;
 import nl.tudelft.jpacman.data.ScoreData;
+import nl.tudelft.jpacman.data.ScoreSorter;
 import nl.tudelft.jpacman.game.Game;
 
 
@@ -118,12 +119,12 @@ public class ScoreBoardUI extends JFrame {
         List<Score> scores;
         try {
             if (Launcher.isOnline) {
-                scores = FirebaseRepository.readAll();
+                scores = ScoreRepository.readAll();
             } else {
                 scores = ScoreData.getListScore();
             }
 
-            scores = ScoreData.getScoreListSorted(scores);
+            scores = ScoreSorter.getScoreListSorted(scores);
         } catch (Exception e) {
             e.printStackTrace();
             scores = new ArrayList<>();
@@ -134,7 +135,7 @@ public class ScoreBoardUI extends JFrame {
         for (Score score : scores) {
             data[i][0] = i + 1;
             data[i][1] = score.getPlayerName();
-            data[i][2] = ""+score.getTime()/1000.0;
+            data[i][2] = ""+score.getPlayingTime()/1000.0;
             data[i][3] = score.getScore();
             i++;
         }

@@ -5,7 +5,7 @@ import com.google.firebase.cloud.FirestoreClient;
 
 import java.util.*;
 
-public class FirebaseRepository {
+public class ScoreRepository {
     public static boolean canConnect() {
         boolean canConnect = FirebaseConfig.isInternetConnected();
         return canConnect;

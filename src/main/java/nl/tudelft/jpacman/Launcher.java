@@ -3,8 +3,8 @@ package nl.tudelft.jpacman;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.data.FirebaseConfig;
-import nl.tudelft.jpacman.data.FirebaseRepository;
-import nl.tudelft.jpacman.data.ScoreData;
+import nl.tudelft.jpacman.data.ScoreRepository;
+import nl.tudelft.jpacman.data.ScoreSorter;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.*;
@@ -229,7 +229,7 @@ public class Launcher {
         if(FirebaseConfig.isInternetConnected()){
             FirebaseConfig.init();
         }
-        ScoreData.getScoreListSorted(FirebaseRepository.readAll());
+        ScoreSorter.getScoreListSorted(ScoreRepository.readAll());
         launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();

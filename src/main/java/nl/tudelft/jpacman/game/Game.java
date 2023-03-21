@@ -2,7 +2,7 @@ package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.data.FirebaseRepository;
+import nl.tudelft.jpacman.data.ScoreRepository;
 import nl.tudelft.jpacman.data.Score;
 import nl.tudelft.jpacman.data.ScoreData;
 import nl.tudelft.jpacman.level.Level;
@@ -126,7 +126,7 @@ public abstract class Game implements LevelObserver {
             return ScoreData.saveScore(score);
         } else {
             try {
-                FirebaseRepository.write(score);
+                ScoreRepository.write(score);
                 return true;
             } catch (Exception e){
                 System.out.println("Can't save score to database.");
