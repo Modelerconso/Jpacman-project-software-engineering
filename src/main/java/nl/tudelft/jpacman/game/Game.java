@@ -2,20 +2,16 @@ package nl.tudelft.jpacman.game;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.data.ScoreRepository;
+import nl.tudelft.jpacman.data.Score;
 import nl.tudelft.jpacman.data.ScoreData;
-import nl.tudelft.jpacman.data.ScoreSorter;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.points.PointCalculator;
-import nl.tudelft.jpacman.ui.ScoreBoardUI;
+import nl.tudelft.jpacman.ui.ScorePlayerUI;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -124,27 +120,39 @@ public abstract class Game implements LevelObserver {
         return time;
     }
 
+    public boolean saveScore() {
+        Score score = new Score(getPlayers().get(0), getTime());
+        if(!Launcher.isOnline) {
+            return ScoreData.saveScore(score);
+        } else {
+            try {
+                ScoreRepository.write(score);
+                return true;
+            } catch (Exception e){
+                System.out.println("Can't save score to database.");
+                return false;
+            }
+        }
 
+    }
     @Override
     public void levelWon() {
-        ScoreData.saveScore(getPlayers().get(0), getTime());
+        saveScore();
         stop();
 
         // Close UI
         Launcher.pacManUI.start(false);
-
-        ScoreBoardUI scoreBoardUI = new ScoreBoardUI(this);
-
+        ScorePlayerUI scorePlayerUI = new ScorePlayerUI(this);
     }
 
     @Override
     public void levelLost() {
-        ScoreData.saveScore(getPlayers().get(0), getTime());
+        System.out.println("Lost");
+        saveScore();
         stop();
+
         // Close UI
         Launcher.pacManUI.start(false);
-
-        ScoreBoardUI scoreBoardUI = new ScoreBoardUI(this);
-
+        ScorePlayerUI scorePlayerUI = new ScorePlayerUI(this);
     }
 }

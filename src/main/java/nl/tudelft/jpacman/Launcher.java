@@ -3,8 +3,8 @@ package nl.tudelft.jpacman;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.data.FirebaseConfig;
-import nl.tudelft.jpacman.data.FirebaseRepository;
-import nl.tudelft.jpacman.data.Score;
+import nl.tudelft.jpacman.data.ScoreRepository;
+import nl.tudelft.jpacman.data.ScoreSorter;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.*;
@@ -38,6 +38,7 @@ public class Launcher {
     public static PacManUI pacManUI;
     public static Launcher launchers;
 
+    public static boolean isOnline;
     private Game game;
 
 
@@ -228,6 +229,7 @@ public class Launcher {
         if(FirebaseConfig.isInternetConnected()){
             FirebaseConfig.init();
         }
+        ScoreSorter.getScoreListSorted(ScoreRepository.readAll());
         launchers = new Launcher();
         MenuUI menuUI = new MenuUI();
         menuUI.start();

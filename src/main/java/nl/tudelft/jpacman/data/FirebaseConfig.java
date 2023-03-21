@@ -23,7 +23,7 @@ public class FirebaseConfig {
     public static boolean isInternetConnected() {
         try {
             InetAddress address = InetAddress.getByName("8.8.8.8"); // Google's DNS server
-            if (address.isReachable(3000)) { // 5000 ms timeout
+            if (address.isReachable(5000)) { // 5000 ms timeout
                 return true;
             } else {
                 return false;

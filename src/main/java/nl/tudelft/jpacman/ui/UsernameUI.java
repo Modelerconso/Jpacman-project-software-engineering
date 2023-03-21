@@ -9,7 +9,7 @@ public class UsernameUI extends JFrame{
     private JPanel usernameUI;
     private String username ;
     public UsernameUI() {
-
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         usernameUI = new JPanel();
 
         // User name Label

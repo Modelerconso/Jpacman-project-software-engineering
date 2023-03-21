@@ -16,11 +16,17 @@ public class ScoreSorter {
                 if (scoreCompare != 0) {
                     return scoreCompare; // sort by score descending
                 } else {
-                    return Long.compare(s1.getTime(), s2.getTime()); // sort by time ascending if score is equal
+                    return Long.compare(s1.getPlayingTime(), s2.getPlayingTime()); // sort by time ascending if score is equal
                 }
             }
         });
         return sortedScores;
+    }
+
+    public static List<Score> getScoreListSorted(List<Score> scores) {
+        ScoreSorter sorter = new ScoreSorter();
+        List<Score> newList = sorter.sortScoresByScore(scores);
+        return newList;
     }
 
 }

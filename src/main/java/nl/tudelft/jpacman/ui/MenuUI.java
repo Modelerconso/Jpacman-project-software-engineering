@@ -1,23 +1,29 @@
 package nl.tudelft.jpacman.ui;
 
 import nl.tudelft.jpacman.Launcher;
-import nl.tudelft.jpacman.data.FirebaseRepository;
+import nl.tudelft.jpacman.data.ScoreRepository;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MenuUI extends JFrame {
-    private JPanel menuUI;
+    private JPanel menuPanel;
 
     public MenuUI() {
-        menuUI = new JPanel();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        menuPanel = new JPanel();
         JLabel menuLabel = new JLabel("Menu", JLabel.CENTER);
         JButton onlineButton = new JButton("Online");
-        if(!FirebaseRepository.canConnect()){
-            onlineButton.setEnabled(false);
-        }
+        onlineButton.setEnabled(ScoreRepository.canConnect());
+        onlineButton.addActionListener(e -> {
+            Launcher.isOnline = true;
+            UsernameUI usernameUI = new UsernameUI();
+            usernameUI.start();
+            dispose();
+        });
         JButton offlineButton = new JButton("Offline");
         offlineButton.addActionListener(e -> {
+            Launcher.isOnline = false;
             UsernameUI usernameUI = new UsernameUI();
             usernameUI.start();
             dispose();
@@ -26,13 +32,13 @@ public class MenuUI extends JFrame {
         exitButton.addActionListener(e -> {
             System.exit(0);
         });
-        menuUI.setLayout(new GridLayout(4,1));
-        menuUI.add(menuLabel);
-        menuUI.add(onlineButton);
-        menuUI.add(offlineButton);
-        menuUI.add(exitButton);
+        menuPanel.setLayout(new GridLayout(4,1));
+        menuPanel.add(menuLabel);
+        menuPanel.add(onlineButton);
+        menuPanel.add(offlineButton);
+        menuPanel.add(exitButton);
         setSize(400,400);
-        add(menuUI);
+        add(menuPanel);
     }
 
     public void start() {
